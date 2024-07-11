@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity(name = "topico")
 @Table(name = "topicos")
@@ -26,9 +27,32 @@ public class Topico {
     private String mensaje;
     private LocalDateTime creacion;
     private Boolean status;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "autor_id", nullable = false)
     private Usuario autor;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "curso_id", nullable = false)
     private Curso curso;
-    private Respuesta respuesta;
+
+    @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL)
+    private List<Respuesta> respuestas;
+
+
+    public void actualizarDatosTopico(TopicoRespuestaDatos datos) {
+        if (datos.mensaje() != null) {
+            this.mensaje = datos.mensaje();
+        }
+
+        if (datos.titulo() != null) {
+            this.titulo = datos.titulo();
+        }
+    }
+
+    public void desactivarTopico() {
+        this.status = false;
+    }
 
 
 }

@@ -21,10 +21,19 @@ public class Respuesta {
     Long id;
 
     private String mensaje;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
+    private LocalDateTime fechaCreacion;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "topico_id", nullable = false)
     private Topico topico;
-    private LocalDateTime creacion;
-    private Usuario autor;
-    private Boolean solucion;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "autor_id", nullable = false)
+    private Usuario usuario;
+
 
 
 }
